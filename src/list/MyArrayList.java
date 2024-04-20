@@ -1,5 +1,7 @@
 package list;
 
+import java.util.Iterator;
+
 public class MyArrayList<T> implements MyList<T> {
     private static final int DEFAULT_SIZE = 5;
 
@@ -30,7 +32,7 @@ public class MyArrayList<T> implements MyList<T> {
             increaseSize();
 
         for (int i = size; i > index; i--) {
-            array[i] = array[i-1];
+            array[i] = array[i - 1];
         }
         array[index] = item;
         size++;
@@ -65,7 +67,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T getLast() {
-        return array[size-1];
+        return array[size - 1];
     }
 
     @Override
@@ -73,8 +75,8 @@ public class MyArrayList<T> implements MyList<T> {
         checkIndex(index);
         if (size * 2 < array.length)
             decreaseSize();
-        for(int i = index; i < size; i++)
-            array[i] = array[i+1];
+        for (int i = index; i < size; i++)
+            array[i] = array[i + 1];
         size--;
     }
 
@@ -85,11 +87,12 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void removeLast() {
-        remove(size-1);
+        remove(size - 1);
     }
 
     @Override
     public void sort() {
+        // TODO: Make sort
     }
 
     @Override
@@ -102,8 +105,8 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public int lastIndexOf(T item) {
-        for(int i = size - 1; i >= 0; i--)
-            if(item.equals(array[i]))
+        for (int i = size - 1; i >= 0; i--)
+            if (item.equals(array[i]))
                 return i;
         return -1;
     }
@@ -120,7 +123,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void clear() {
-        for(int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
             array[i] = null;
     }
 
@@ -132,7 +135,7 @@ public class MyArrayList<T> implements MyList<T> {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
             builder.append(array[i]).append(" ");
         return builder.toString();
     }
@@ -153,5 +156,28 @@ public class MyArrayList<T> implements MyList<T> {
 
     private void checkIndex(int index) {
         if (index >= size || index < 0) throw new IndexOutOfBoundsException("Index must be between 0 and " + size);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Itr(0);
+    }
+
+    private class Itr implements Iterator<T> {
+        int cursor;
+
+        public Itr(int cursor) {
+            this.cursor = cursor;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return size > cursor;
+        }
+
+        @Override
+        public T next() {
+            return array[cursor++];
+        }
     }
 }
