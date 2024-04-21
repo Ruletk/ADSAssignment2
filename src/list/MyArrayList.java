@@ -118,7 +118,10 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T[] toArray() {
-        return array;
+        T[] arr = (T[]) new Object[size];
+        for (int i = 0; i < size; i++)
+            arr[i] = array[i];
+        return arr;
     }
 
     @Override
@@ -155,7 +158,8 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index >= size || index < 0) throw new IndexOutOfBoundsException("Index must be between 0 and " + size);
+        if (index >= size || index < 0)
+            throw new IndexOutOfBoundsException("Index must be between 0 and " + size);
     }
 
     @Override
