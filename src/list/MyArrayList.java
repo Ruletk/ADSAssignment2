@@ -27,6 +27,10 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void add(T item, int index) {
+        if (size == 0) {
+            add(item);
+            return;
+        }
         checkIndex(index);
         if (size >= array.length)
             increaseSize();
@@ -73,8 +77,6 @@ public class MyArrayList<T> implements MyList<T> {
     @Override
     public void remove(int index) {
         checkIndex(index);
-        if (size * 2 < array.length)
-            decreaseSize();
         for (int i = index; i < size; i++)
             array[i] = array[i + 1];
         size--;
@@ -145,13 +147,6 @@ public class MyArrayList<T> implements MyList<T> {
 
     private void increaseSize() {
         T[] newArr = (T[]) new Object[size * 2];
-        for (int i = 0; i < size; i++)
-            newArr[i] = array[i];
-        array = newArr;
-    }
-
-    private void decreaseSize() {
-        T[] newArr = (T[]) new Object[(int) (size / 2)];
         for (int i = 0; i < size; i++)
             newArr[i] = array[i];
         array = newArr;

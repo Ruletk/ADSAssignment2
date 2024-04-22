@@ -195,6 +195,8 @@ public class MyLinkedList<T> implements MyList<T> {
     private Node<T> getNodeAt(int index) {
         checkIndex(index);
         Node<T> node = head;
+        if (node == null)
+            return null;
         while (--index != 0 && node.next != null)
             node = node.next;
         return node;

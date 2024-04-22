@@ -1,6 +1,7 @@
 package list;
 
-public interface MyList<T> {
+// TODO: Make custom Iterable
+public interface MyList<T> extends Iterable<T> {
     void add(T item);
     void add(T item, int index);
     void addFirst(T item);
