@@ -3,7 +3,7 @@ package kz.ruletk.datatypes;
 
 import kz.ruletk.list.MyList;
 
-public class Stack<T extends Comparable<T>> implements DataType<T>{
+public class Stack<T extends Comparable<T>> implements DataType<T> {
     private final MyList<T> list;
 
     public Stack(MyList<T> list) {

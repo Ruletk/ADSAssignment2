@@ -149,7 +149,7 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < size; i++)
             builder.append(array[i]).append(" ");
-        builder.deleteCharAt(builder.length()-1);
+        builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
 

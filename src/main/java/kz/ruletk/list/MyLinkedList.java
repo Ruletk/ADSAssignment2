@@ -139,6 +139,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
     @Override
     public void clear() {
         head = null;
+        size = 0;
     }
 
     @Override
