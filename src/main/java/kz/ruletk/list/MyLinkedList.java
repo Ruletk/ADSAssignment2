@@ -1,4 +1,4 @@
-package list;
+package kz.ruletk.list;
 
 import java.util.Iterator;
 

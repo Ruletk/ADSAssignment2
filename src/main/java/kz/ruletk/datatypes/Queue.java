@@ -1,16 +1,17 @@
-package datatypes;
+package kz.ruletk.datatypes;
 
-import list.MyList;
 
-public class Stack<T extends Comparable<T>> implements DataType<T>{
+import kz.ruletk.list.MyList;
+
+public class Queue<T extends Comparable<T>> implements DataType<T> {
     private final MyList<T> list;
 
-    public Stack(MyList<T> list) {
+    public Queue(MyList<T> list) {
         this.list = list;
     }
 
     public void push(T t) {
-        list.addLast(t);
+        list.addFirst(t);
     }
 
     public T pop() {

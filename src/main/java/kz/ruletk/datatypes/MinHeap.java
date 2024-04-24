@@ -1,6 +1,6 @@
-package datatypes;
+package kz.ruletk.datatypes;
 
-import list.MyList;
+import kz.ruletk.list.MyList;
 
 public class MinHeap<T extends Comparable<T>> {
     MyList<T> list;

@@ -1,4 +1,4 @@
-package list;
+package kz.ruletk.list;
 
 // TODO: Make custom Iterable
 public interface MyList<T extends Object & Comparable<T>> extends Iterable<T> {
