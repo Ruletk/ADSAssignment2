@@ -2,9 +2,10 @@ package list;
 
 import java.util.Iterator;
 
-public class MyLinkedList<T> implements MyList<T> {
+public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T> {
     private int size = 0;
     private Node<T> head;
+    private Node<T> tail;
 
     @Override
     public void add(T item) {
@@ -89,6 +90,11 @@ public class MyLinkedList<T> implements MyList<T> {
     @Override
     public void sort() {
         // TODO: Make sort
+        try {
+            throw new UnsupportedOperationException("Not implemented yet");
+        } catch (Exception e) {
+            System.out.println("Sort not implemented: " + e);
+        }
     }
 
     @Override

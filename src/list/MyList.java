@@ -1,7 +1,7 @@
 package list;
 
 // TODO: Make custom Iterable
-public interface MyList<T> extends Iterable<T> {
+public interface MyList<T extends Object & Comparable<T>> extends Iterable<T> {
     void add(T item);
     void add(T item, int index);
     void addFirst(T item);

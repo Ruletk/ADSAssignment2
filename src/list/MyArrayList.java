@@ -2,20 +2,20 @@ package list;
 
 import java.util.Iterator;
 
-public class MyArrayList<T> implements MyList<T> {
+public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> {
     private static final int DEFAULT_SIZE = 5;
 
     private T[] array;
     private int size = 0;
 
     public MyArrayList() {
-        array = (T[]) new Object[DEFAULT_SIZE];
+        array = createArray(DEFAULT_SIZE);
     }
 
     public MyArrayList(int size) {
         if (size < 0)
             throw new IllegalArgumentException("Illegal ArrayList size: " + size);
-        this.array = (T[]) new Object[size];
+        this.array = createArray(size);
     }
 
     @Override
@@ -94,7 +94,15 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void sort() {
-        // TODO: Make sort
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = i + 1; j < size; j++) {
+                if (array[i].compareTo(array[j]) > 0) {
+                    T t = array[j];
+                    array[j] = array[i];
+                    array[i] = t;
+                }
+            }
+        }
     }
 
     @Override
@@ -120,7 +128,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T[] toArray() {
-        T[] arr = (T[]) new Object[size];
+        T[] arr = createArray(size);
         for (int i = 0; i < size; i++)
             arr[i] = array[i];
         return arr;
@@ -142,11 +150,17 @@ public class MyArrayList<T> implements MyList<T> {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < size; i++)
             builder.append(array[i]).append(" ");
+        builder.deleteCharAt(builder.length()-1);
         return builder.toString();
     }
 
+    @SuppressWarnings(value = "unchecked")
+    private T[] createArray(int size) {
+        return (T[]) new Object[size];
+    }
+
     private void increaseSize() {
-        T[] newArr = (T[]) new Object[size * 2];
+        T[] newArr = createArray(size * 2);
         for (int i = 0; i < size; i++)
             newArr[i] = array[i];
         array = newArr;
