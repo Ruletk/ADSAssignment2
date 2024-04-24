@@ -192,7 +192,6 @@ public abstract class MyListTest {
             list.add(i);
 
         list.clear();
-        System.out.println(Arrays.toString(list.toArray()));
 
         Assertions.assertArrayEquals(arr, list.toArray());
     }

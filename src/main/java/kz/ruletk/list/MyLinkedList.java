@@ -89,12 +89,26 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
 
     @Override
     public void sort() {
-        // TODO: Make sort
-        try {
-            throw new UnsupportedOperationException("Not implemented yet");
-        } catch (Exception e) {
-            System.out.println("Sort not implemented: " + e);
-        }
+        boolean swapped;
+        Node<T> node;
+
+        if (head == null)
+            return;
+
+        do {
+            swapped = false;
+            node = head;
+
+            while (node.next != null) {
+                if (node.item.compareTo(node.next.item) > 0) {
+                    T t = node.next.item;
+                    node.next.item = node.item;
+                    node.item = t;
+                    swapped = true;
+                }
+                node = node.next;
+            }
+        } while (swapped);
     }
 
     @Override
