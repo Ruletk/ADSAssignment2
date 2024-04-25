@@ -87,7 +87,7 @@ public abstract class MyListTest {
         for (int i : array)
             list.add(i);
 
-        Assertions.assertEquals(array[array.length-1], list.getLast());
+        Assertions.assertEquals(array[array.length - 1], list.getLast());
     }
 
     @Test

@@ -95,13 +95,19 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
 
     @Override
     public void sort() {
-        for (int i = 0; i < size - 1; i++)
-            for (int j = i + 1; j < size; j++)
-                if (array[i].compareTo(array[j]) > 0) {
+        boolean swapped;
+        for (int i = 0; i < size - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < size - i - 1; j++)
+                if (array[j].compareTo(array[j + 1]) > 0) {
                     T t = array[j];
-                    array[j] = array[i];
-                    array[i] = t;
+                    array[j] = array[j + 1];
+                    array[j + 1] = t;
+                    swapped = true;
                 }
+            if (!swapped)
+                break;
+        }
     }
 
     @Override
@@ -128,8 +134,7 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
     @Override
     public T[] toArray() {
         T[] arr = createArray(size);
-        for (int i = 0; i < size; i++)
-            arr[i] = array[i];
+        if (size >= 0) System.arraycopy(array, 0, arr, 0, size);
         return arr;
     }
 
@@ -161,8 +166,7 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
 
     private void increaseSize() {
         T[] newArr = createArray(size * 2);
-        for (int i = 0; i < size; i++)
-            newArr[i] = array[i];
+        if (size >= 0) System.arraycopy(array, 0, newArr, 0, size);
         array = newArr;
     }
 
