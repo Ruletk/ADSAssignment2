@@ -3,8 +3,6 @@ package kz.ruletk.list;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 public abstract class MyListTest {
     private static final Integer[] array = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
@@ -23,13 +21,15 @@ public abstract class MyListTest {
     public void testAddIndex() {
         MyList<Integer> list = createInstance();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 1; i < 3; i++)
             list.add(i);
-        for (int i = 5; i <= 9; i++)
+        for (int i = 5; i <= 8; i++)
             list.add(i);
 
+        list.add(0, 0);
         list.add(4, 3);
         list.add(3, 3);
+        list.add(9, 9);
 
         Assertions.assertArrayEquals(array, list.toArray());
     }
@@ -69,7 +69,7 @@ public abstract class MyListTest {
         for (int i : array)
             list.add(i);
 
-        Assertions.assertArrayEquals(array, list.toArray());
+        Assertions.assertEquals(array[4], list.get(4));
     }
 
     @Test
@@ -78,7 +78,7 @@ public abstract class MyListTest {
         for (int i : array)
             list.add(i);
 
-        Assertions.assertArrayEquals(array, list.toArray());
+        Assertions.assertEquals(array[0], list.getFirst());
     }
 
     @Test
@@ -87,7 +87,7 @@ public abstract class MyListTest {
         for (int i : array)
             list.add(i);
 
-        Assertions.assertArrayEquals(array, list.toArray());
+        Assertions.assertEquals(array[array.length-1], list.getLast());
     }
 
     @Test

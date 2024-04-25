@@ -9,7 +9,7 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
     private int size = 0;
 
     public MyArrayList() {
-        array = createArray(DEFAULT_SIZE);
+        this(DEFAULT_SIZE);
     }
 
     public MyArrayList(int size) {
@@ -27,10 +27,11 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
 
     @Override
     public void add(T item, int index) {
-        if (size == 0) {
+        if (size == 0 || index == size) {
             add(item);
             return;
         }
+
         checkIndex(index);
         if (size >= array.length)
             increaseSize();
@@ -146,11 +147,11 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder str = new StringBuilder();
         for (int i = 0; i < size; i++)
-            builder.append(array[i]).append(" ");
-        builder.deleteCharAt(builder.length() - 1);
-        return builder.toString();
+            str.append(array[i]).append(" ");
+        str.deleteCharAt(str.length() - 1);
+        return str.toString();
     }
 
     @SuppressWarnings(value = "unchecked")
@@ -166,7 +167,7 @@ public class MyArrayList<T extends Object & Comparable<T>> implements MyList<T> 
     }
 
     private void checkIndex(int index) {
-        if (index >= size || index < 0)
+        if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException("Index must be between 0 and " + size);
     }
 

@@ -3,31 +3,47 @@ package kz.ruletk.list;
 import java.util.Iterator;
 
 public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T> {
-    private int size = 0;
+    private int size;
     private Node<T> head;
     private Node<T> tail;
+
+    public MyLinkedList() {
+        head = tail = null;
+        size = 0;
+    }
 
     @Override
     public void add(T item) {
         size++;
+        Node<T> newNode = new Node<>(item);
+
         if (head == null) {
-            head = new Node<>(item);
+            head = tail = newNode;
             return;
         }
-        Node<T> last = getLastNode();
-        last.next = new Node<>(item, null);
+
+        tail.next = newNode;
+        newNode.prev = tail;
+        tail = newNode;
     }
 
     @Override
     public void add(T item, int index) {
-        checkIndex(index);
-        Node<T> node = getNodeAt(index);
-        size++;
-        if (index == 0) {
-            head = new Node<>(item, head);
+        if (head == null || index == size) {
+            add(item);
             return;
         }
-        node.next = new Node<>(item, node.next);
+        checkIndex(index);
+
+        size++;
+        Node<T> node = getNodeAt(index + 1);
+
+        Node<T> newNode = new Node<>(item, node.prev, node);
+        if (node.prev != null)
+            node.prev.next = newNode;
+        node.prev = newNode;
+        if (newNode.prev == null)
+            head = newNode;
     }
 
     @Override
@@ -60,7 +76,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
 
     @Override
     public T getLast() {
-        return getLastNode().item;
+        return tail.item;
     }
 
     @Override
@@ -70,7 +86,8 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
             return;
         }
         Node<T> node = getNodeAt(index);
-        node.next = node.next.next;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
         size--;
     }
 
@@ -82,8 +99,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
 
     @Override
     public void removeLast() {
-        Node<T> node = getNodeAt(size - 1);
-        node.next = null;
+        tail = tail.prev;
         size--;
     }
 
@@ -124,12 +140,12 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
 
     @Override
     public int lastIndexOf(T item) {
-        Node<T> node = head;
+        Node<T> node = tail;
         int t = -1;
         for (int i = 0; i < size; i++) {
             if (node.item.equals(item))
                 t = i;
-            node = node.next;
+            node = node.prev;
         }
         return t;
     }
@@ -140,6 +156,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T[] toArray() {
         T[] array = (T[]) new Object[size];
         Node<T> node = head;
@@ -153,6 +170,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
     @Override
     public void clear() {
         head = null;
+        tail = null;
         size = 0;
     }
 
@@ -169,6 +187,7 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
             str.append(h.item).append(" ");
             h = h.next;
         }
+        str.deleteCharAt(str.length() - 1);
         return str.toString();
     }
 
@@ -200,15 +219,18 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
 
     private static class Node<T> {
         T item;
+        Node<T> prev;
         Node<T> next;
 
         public Node(T item) {
             this.item = item;
+            prev = null;
             next = null;
         }
 
-        public Node(T item, Node<T> next) {
+        public Node(T item, Node<T> prev, Node<T> next) {
             this.item = item;
+            this.prev = prev;
             this.next = next;
         }
     }
@@ -216,22 +238,13 @@ public class MyLinkedList<T extends Object & Comparable<T>> implements MyList<T>
     private Node<T> getNodeAt(int index) {
         checkIndex(index);
         Node<T> node = head;
-        if (node == null)
-            return null;
         while (--index != 0 && node.next != null)
             node = node.next;
         return node;
     }
 
-    private Node<T> getLastNode() {
-        Node<T> node = head;
-        while (node.next != null)
-            node = node.next;
-        return node;
-    }
-
     private void checkIndex(int index) {
-        if (index < 0 || index > size)
+        if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException("Index must be between 0 and " + size);
     }
 }

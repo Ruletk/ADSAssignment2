@@ -3,7 +3,7 @@ package kz.ruletk.datatypes;
 import kz.ruletk.list.MyList;
 
 public class MinHeap<T extends Comparable<T>> {
-    MyList<T> list;
+    private final MyList<T> list;
 
     public MinHeap(MyList<T> list) {
         this.list = list;
@@ -41,7 +41,7 @@ public class MinHeap<T extends Comparable<T>> {
         int go;
         if (l >= list.size())
             go = r;
-        if (r >= list.size())
+        else if (r >= list.size())
             go = l;
         else
             go = list.get(l).compareTo(list.get(r)) > 0 ? r : l;
