@@ -6,62 +6,80 @@ public class MinHeap<T extends Comparable<T>> {
     private final MyList<T> list;
 
     public MinHeap(MyList<T> list) {
+        list.add(null);
         this.list = list;
+    }
+
+    public boolean empty() {
+        return size() == 1;
+    }
+
+    public int size() {
+        return list.size() - 1;
+    }
+
+    public T getMin() {
+        return list.get(1);
+    }
+
+    public T extractMin() {
+        T min = getMin();
+        list.set(list.getLast(), 1);
+        list.removeLast();
+        heapify(1);
+        return min;
     }
 
     public void insert(T t) {
         list.addLast(t);
-        heapifyAdd(t, list.size() - 1);
+        traverseUp(t, list.size() - 1);
     }
 
-    public T getMin() {
-        return list.getFirst();
-    }
-
-    public T popMin() {
-        T min = list.getFirst();
-        list.removeFirst();
-        list.set(list.getLast(), 0);
-        list.removeLast();
-        heapifyRemove(0);
-        return min;
-    }
-
-    public void decrease() {
-
-    }
-
-    public void delete(int index) {
-
-    }
-
-    private void heapifyRemove(int index) {
-        int l = (index + 1) * 2 - 1;
-        int r = (index + 1) * 2;
+    private void heapify(int index) {
+        int l = leftChildOf(index);
+        int r = rightChildOf(index);
         int go;
-        if (l >= list.size())
+        if (l >= size() || r >= size())
+            return;
+        if (l >= size())
             go = r;
-        else if (r >= list.size())
+        else if (r >= size())
             go = l;
         else
             go = list.get(l).compareTo(list.get(r)) > 0 ? r : l;
 
         if (list.get(index).compareTo(list.get(go)) > 0) {
-            T t = list.get(go);
-            list.set(list.get(index), go);
-            list.set(t, index);
-            heapifyRemove(go);
+            swap(index, go);
+            heapify(go);
         }
     }
 
-    private void heapifyAdd(T t, int index) {
-        int parent = index / 2;
+    private void traverseUp(T t, int index) {
+        int parent = parentOf(index);
         if (list.get(parent).compareTo(t) > 0) {
-            T temp = list.get(parent);
-            list.set(t, parent);
-            list.set(temp, index);
-            heapifyAdd(t, parent);
+            swap(parent, index);
+            traverseUp(t, parent);
         }
+    }
+
+    private int leftChildOf(int index) {
+        return index * 2 - 1;
+    }
+
+    private int rightChildOf(int index) {
+        return index * 2;
+    }
+
+    private int parentOf(int index) {
+        if (index == 1)
+            return 1;
+        return index / 2;
+    }
+
+    private void swap(int index1, int index2) {
+        T temp = list.get(index1);
+        list.set(list.get(index2), index1);
+        list.set(temp, index2);
     }
 
 }
